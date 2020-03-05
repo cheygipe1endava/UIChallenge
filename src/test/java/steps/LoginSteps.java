@@ -33,8 +33,7 @@ public class LoginSteps {
 
     @Then("^Page shows error with email or password to the user$")
     public void pageShowsErrorWithEmailOrPasswordToTheUser() {
-        loginInvalid = homePage.invalidLogin();
-        Assert.assertTrue("Error: Invalid email or password, please check your credentials", loginInvalid);
+        Assert.assertTrue("Error: Invalid email or password, please check your credentials", homePage.invalidLogin());
     }
 
     @When("^The user types in valid credentials$")
@@ -44,8 +43,7 @@ public class LoginSteps {
 
     @Then("^User should be signed in$")
     public void userShouldBeSignedIn() {
-        userLoggedIn = homePage.userLoggedIn();
-        Assert.assertFalse("Successfully logged in", userLoggedIn);
+        Assert.assertFalse("Successfully logged in", homePage.userLoggedIn());
 
     }
 

@@ -1,5 +1,6 @@
 package steps;
 
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,6 +12,8 @@ import pages.RegistrationPage;
 public class InvalidRegistrationStep {
 
     private boolean cellphoneEmptyMessage;
+
+
 
 
     RegistrationPage registrationPage = new RegistrationPage(HookHelper.getWebDriver());
@@ -26,7 +29,7 @@ public class InvalidRegistrationStep {
     }
 
     @When("^The user fills all fields excepting 'celular'$")
-    public void theUserFillsAllFieldsExceptingCelular() {
+    public void theUserFillsAllExceptingCelular()  {
         registrationPage.insertData();
     }
 
@@ -40,4 +43,6 @@ public class InvalidRegistrationStep {
         cellphoneEmptyMessage = registrationPage.registrationCellphoneNotFound();
         Assert.assertTrue("Error: Cellphone field is empty", cellphoneEmptyMessage);
     }
+
+
 }

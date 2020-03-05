@@ -30,8 +30,7 @@ public class LogoutSteps {
 
     @Then("^The user should be signed out$")
     public void theUserShouldBeSignedOut() {
-        loggedOut = homePage.verifyLogout();
-        Assert.assertFalse("User successfully logged out", loggedOut);
+        Assert.assertTrue("User successfully logged out",  homePage.verifyLogout());
     }
 
 }

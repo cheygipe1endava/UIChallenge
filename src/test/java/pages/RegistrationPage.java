@@ -1,5 +1,6 @@
 package pages;
 
+import helper.PropertiesHelper;
 import org.awaitility.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,42 +16,26 @@ import static org.awaitility.Awaitility.await;
 
 
 public class RegistrationPage extends BasePage {
-    private WebDriver webDriver;
-    private WebElement searchRegister, genderRadioButton;
-    private Select dropDownCountry, dropdownDocument,
-            dropDownDay, dropDownMonth, dropDownYear;
 
+    private WebDriver webDriver;
+    private WebElement searchRegister, genderRadioButton, termsCheckbox, saveButton, findCellhponeAlert;
+    private Select dropDownCountry, dropdownDocument, dropDownDay, dropDownMonth, dropDownYear;
+    private By findFemaleButton = By.xpath("//*[@id='tipodireccion_0' and @value='female']");
+    private By user = By.id("user");
+    private By fatherLastName = By.id("apellidopaterno");
+    private By motherLastName = By.id("apellidomaterno");
+    private By mail = By.id("mail");
+    private By password = By.id("clave1");
+    private By confirmPass = By.id("clave2");
+    private By documentNum = By.id("cedula_colombia");
+
+    private boolean cellphoneEmptyMessage = false;
 
     @FindBy(className = "fb-masthead-login")
     private WebElement loginDiv;
 
-    @FindBy(id = "user")
-    private WebElement user;
-
-    @FindBy(id = "apellidopaterno")
-    private WebElement fatherLastName;
-
-    @FindBy(id = "apellidomaterno")
-    private WebElement motherLastName;
-
-    @FindBy(id = "mail")
-    private WebElement mail;
-
-    @FindBy(id = "clave1")
-    private WebElement password;
-
-    @FindBy(id = "clave2")
-    private WebElement confirmPass;
-
-    @FindBy(id = "cedula_colombia")
-    private WebElement documentNum;
-
-
-    private WebElement termsCheckbox;
-    private WebElement saveButton;
-    private WebElement findCellhponeAlert;
-
-    private By chanSelector = By.xpath("sfdsdfsdf");
+    @FindBy(className = "Login__createAccount__38c2o")
+    private WebElement searchRegisterParent;
 
 
     public RegistrationPage(WebDriver webDriver) {
@@ -59,53 +44,72 @@ public class RegistrationPage extends BasePage {
     }
 
 
-
     public void searchRegister ()
     {
         loginDiv.click();
         WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("5"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Modal__modalcontent__2yJz6")));
-        searchRegister = webDriver.findElement(By.className("Login__createAccount__38c2o")).findElement(By.tagName("a"));
+        searchRegister = searchRegisterParent.findElement(By.tagName("a"));
         searchRegister.click();
     }
 
-
-    public void insertData() {
+    public void insertName()
+    {
         WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("contRegistro")));
-        user.click();
-        user.clear();
-        user.sendKeys("MARIA");
-        fatherLastName.click();
-        fatherLastName.clear();
-        fatherLastName.sendKeys("VAZQUEZ");
-        motherLastName.click();
-        motherLastName.clear();
-        motherLastName.sendKeys("PEREZ");
-        mail.click();
-        mail.clear();
-        mail.sendKeys("igmirsedarcom@sarasotaluxuryagent.com");
-        password.click();
-        password.clear();
-        password.sendKeys("sD4eMa9TKtsFdJGs");
-        confirmPass.click();
-        confirmPass.clear();
-        confirmPass.sendKeys("sD4eMa9TKtsFdJGs");
+        clickAndSendData(user, PropertiesHelper.getValueByKey("name"));
+    }
+
+    public void insertFatherLastName()
+    {
+        clickAndSendData(fatherLastName, PropertiesHelper.getValueByKey("fatherLastName"));
+    }
+
+    public void insertMotherLastName()
+    {
+        clickAndSendData(motherLastName, PropertiesHelper.getValueByKey("motherLastName"));
+    }
+
+    public void emailInsert()
+    {
+        clickAndSendData(mail, PropertiesHelper.getValueByKey("email"));
+    }
+
+    public void passwordAndConfirmationInsert()
+    {
+        clickAndSendData(password, PropertiesHelper.getValueByKey("password"));
+        clickAndSendData(confirmPass, PropertiesHelper.getValueByKey("password"));
+    }
+
+    public void selectDropDowns()
+    {
         dropDownCountry = new Select(webDriver.findElement(By.id("status")));
         dropDownCountry.selectByVisibleText("Colombia");
         dropdownDocument = new Select(webDriver.findElement(By.id("cedula")));
         dropdownDocument.selectByValue("CEDULA_DE_CIUDADANIA");
-        documentNum.click();
-        documentNum.clear();
-        documentNum.sendKeys("1016948235");
-        genderRadioButton = webDriver.findElement(By.xpath("//*[@id='tipodireccion_0' and @value='female']"));
-        genderRadioButton.click();
         dropDownDay = new Select(webDriver.findElement(By.id("day")));
         dropDownDay.selectByVisibleText("5");
         dropDownMonth = new Select(webDriver.findElement(By.id("month")));
         dropDownMonth.selectByVisibleText("May");
         dropDownYear = new Select(webDriver.findElement(By.id("year")));
         dropDownYear.selectByVisibleText("1990");
+    }
+
+    public void documentNumInsert()
+    {
+        clickAndSendData(documentNum, PropertiesHelper.getValueByKey("documentNumber"));
+
+    }
+
+    public void genderSelection()
+    {
+        genderRadioButton = webDriver.findElement(findFemaleButton);
+        genderRadioButton.click();
+    }
+
+    public void checkAgreedTerms()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("agreelegaleId")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("agreelegaleId")));
         termsCheckbox = webDriver.findElement(By.id("agreelegaleId"));
@@ -118,6 +122,18 @@ public class RegistrationPage extends BasePage {
                 );
     }
 
+    public void insertData() {
+        insertName();
+        insertFatherLastName();
+        insertMotherLastName();
+        emailInsert();
+        passwordAndConfirmationInsert();
+        selectDropDowns();
+        documentNumInsert();
+        genderSelection();
+        checkAgreedTerms();
+    }
+
     public void saveButtonClick() {
         saveButton = webDriver.findElement(By.id("boton_Ar"));
         saveButton.click();
@@ -125,8 +141,6 @@ public class RegistrationPage extends BasePage {
 
     public boolean registrationCellphoneNotFound() {
 
-        boolean cellphoneEmptyMessage = false;
-        
         this.findCellhponeAlert = webDriver.findElement(By.id("mensajeCelVacio"));
         if(findCellhponeAlert.isDisplayed())
         {
