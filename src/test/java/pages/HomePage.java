@@ -24,6 +24,8 @@ public class HomePage extends BasePage
     private WebElement passwordInput;
     private WebElement loginButton;
     private WebElement incorrectCredentials;
+    private WebElement logOut;
+    private WebElement verifyLogout;
 
 
     public HomePage(WebDriver webDriver) {
@@ -90,24 +92,51 @@ public class HomePage extends BasePage
     public boolean userLoggedIn()
     {
         boolean loggedIn = false;
-        WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("5"));
+        WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
         loggedInDiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='header-login-modal']/div/div/div")));
-        String a = loggedInDiv.getText();
-        if(a.contains("Bienvenid@,"))
+        String getloginText = loggedInDiv.getText();
+        if (getloginText.contains("Bienvenid@,"))
         {
             loggedIn = true;
         }
         return loggedIn;
     }
 
+    public void hoverAccountOptions()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='header-login-modal']/div/div/div")));
+        WebElement hoverAction = webDriver.findElement(By.xpath("//*[@id='header-login-modal']/div/div/div"));
+        Actions builder = new Actions(webDriver);
+        builder.moveToElement(hoverAction).perform();
+    }
+
+    public void clickLogout()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("fb-filter-header__list")));
+        logOut = webDriver.findElement(By.xpath("//*[@class='fb-filter-header__list']/li/a[@href='#']"));
+        logOut.click();
+    }
+
+    public boolean verifyLogout()
+    {
+        boolean loggedOut = false;
+        WebDriverWait wait = new WebDriverWait(webDriver, Long.parseLong("5"));
+        verifyLogout = wait.until(ExpectedConditions.elementToBeClickable(loginDiv));
+        String getVerifyLogoutText = verifyLogout.getText();
+        if (getVerifyLogoutText.contains("Inicia"))
+        {
+            loggedOut = true;
+        }
+        return loggedOut;
+
+    }
 
 
 
 
-/*
-
-//*[@id='typhead-suggestions']//a
 
 
- */
+
 }
