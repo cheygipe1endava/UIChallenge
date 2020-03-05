@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="1" name="Login" skipped="0" tests="2" time="29.92" timestamp="2020-03-04 09:10:15"><testcase name="The user unsuccessfully signs in Falabella's web page"/><testcase name="The user successfully signs in Falabella's web page"><failure message="Successfully logged in" type="java.lang.AssertionError">Successfully logged in</failure><system-err>Successfully logged in&#13;
+steps.LoginSteps.userShouldBeSignedIn(LoginSteps.java:48)&#13;
+✽.User should be signed in(src/test/resources/features/Login.feature:15)&#13;
+</system-err></testcase></testsuite>

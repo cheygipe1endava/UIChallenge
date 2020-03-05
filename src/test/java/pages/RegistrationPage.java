@@ -1,19 +1,15 @@
 package pages;
 
-import helper.HookHelper;
 import org.awaitility.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
-import java.util.Random;
+
 
 import static org.awaitility.Awaitility.await;
 
@@ -79,7 +75,7 @@ public class RegistrationPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("contRegistro")));
         user.click();
         user.clear();
-        user.sendKeys("CARLOS");
+        user.sendKeys("MARIA");
         fatherLastName.click();
         fatherLastName.clear();
         fatherLastName.sendKeys("VAZQUEZ");
@@ -102,7 +98,7 @@ public class RegistrationPage extends BasePage {
         documentNum.click();
         documentNum.clear();
         documentNum.sendKeys("1016948235");
-        genderRadioButton = webDriver.findElement(By.xpath("//*[@id='tipodireccion_0' and @value='male']"));
+        genderRadioButton = webDriver.findElement(By.xpath("//*[@id='tipodireccion_0' and @value='female']"));
         genderRadioButton.click();
         dropDownDay = new Select(webDriver.findElement(By.id("day")));
         dropDownDay.selectByVisibleText("5");
@@ -110,9 +106,6 @@ public class RegistrationPage extends BasePage {
         dropDownMonth.selectByVisibleText("May");
         dropDownYear = new Select(webDriver.findElement(By.id("year")));
         dropDownYear.selectByVisibleText("1990");
-        //this.offersCheckbox = offersCheckbox.findElement(By.xpath("//*[@name='/atg/userprofiling/ProfileFormHandler.editValue.receiveEmail']"));
-        //offersCheckbox.click();
-        //this.termsCheckbox = webDriver.findElement(By.xpath("//*[contains(text(), 'Quiero')]"));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("agreelegaleId")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("agreelegaleId")));
         termsCheckbox = webDriver.findElement(By.id("agreelegaleId"));
@@ -123,8 +116,6 @@ public class RegistrationPage extends BasePage {
                             return termsCheckbox.isSelected();
                         }
                 );
-        //saveButton = webDriver.findElement(By.id("boton_Ar"));
-        //saveButton.click();
     }
 
     public void saveButtonClick() {
@@ -132,18 +123,17 @@ public class RegistrationPage extends BasePage {
         saveButton.click();
     }
 
-    public String registCellphoneNotFound() {
+    public boolean registrationCellphoneNotFound() {
 
-        String cellphoneEmptyMessage = "false";
+        boolean cellphoneEmptyMessage = false;
         
         this.findCellhponeAlert = webDriver.findElement(By.id("mensajeCelVacio"));
         if(findCellhponeAlert.isDisplayed())
         {
-            cellphoneEmptyMessage = "true";
+            cellphoneEmptyMessage = true;
             
         }
         return cellphoneEmptyMessage;
-        
 
     }
 }

@@ -21,14 +21,83 @@ import static org.awaitility.Awaitility.await;
 public class HomePage extends BasePage
 {
     private WebDriver webDriver;
-
-
-
+    private WebElement passwordInput;
+    private WebElement loginButton;
+    private WebElement incorrectCredentials;
 
 
     public HomePage(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
+    }
+
+    @FindBy(className = "fb-masthead-login")
+    private WebElement loginDiv;
+
+    @FindBy(id = "emailAddress")
+    private WebElement emailInput;
+
+
+    private WebElement loggedInDiv;
+
+
+    public void openLoginFormOverlay()
+    {
+        loginDiv.click();
+    }
+
+    public void invalidDataInsert()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("5"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Modal__modalcontent__2yJz6")));
+        emailInput.click();
+        emailInput.clear();
+        emailInput.sendKeys("1234@gmail.com");
+        passwordInput = webDriver.findElement(By.xpath("//input[@type='password']"));
+        passwordInput.click();
+        passwordInput.clear();
+        passwordInput.sendKeys("1234");
+    }
+
+    public void validDataInsert()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("5"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Modal__modalcontent__2yJz6")));
+        emailInput.click();
+        emailInput.clear();
+        emailInput.sendKeys("testdummy4785692@gmail.com");
+        passwordInput = webDriver.findElement(By.xpath("//input[@type='password']"));
+        passwordInput.click();
+        passwordInput.clear();
+        passwordInput.sendKeys("sD4eMa9TKtsFdJGs");
+    }
+
+    public void loginButton()
+    {
+        loginButton = webDriver.findElement(By.xpath("//*[contains(text(), 'Iniciar')]/."));
+        loginButton.click();
+    }
+
+
+    public boolean invalidLogin()
+    {
+        WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("10"));
+        incorrectCredentials = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("Login__message__3fDqw")));
+        boolean invalidLoginMessage = incorrectCredentials.isEnabled();
+        return invalidLoginMessage;
+    }
+
+    public boolean userLoggedIn()
+    {
+        boolean loggedIn = false;
+        WebDriverWait wait = new WebDriverWait(webDriver,Long.parseLong("5"));
+        loggedInDiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='header-login-modal']/div/div/div")));
+        String a = loggedInDiv.getText();
+        if(a.contains("Bienvenid@,"))
+        {
+            loggedIn = true;
+        }
+        return loggedIn;
     }
 
 
